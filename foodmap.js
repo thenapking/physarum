@@ -1,6 +1,6 @@
 class Foodmap {
   constructor(w, h) {
-    this.map = loadImage("backdrop_test.png");
+    this.map = loadImage("tricorn.jpg");
     this.blur = 0.002; // .02 is good
     this.decay = 0.1; // .1 is good
     const v = 1.00 / 9.0;
