@@ -7,9 +7,15 @@ let L = 10
 let SENSOR_DIST = 10;
 let SENSOR_ROT = 15;
 let SENSOR_ROT_MULTIPLIER = 1.5;
+let base_layer;
+let base_image
+let t=0;
+let food_store_count = 100;
+let food_stores = [];
 
 function setup() {
   createCanvas(600, 600);
+  create_food_stores();
   foodmap = new Foodmap(width, height);
 
   timestamp = year() + nf(month(), 2) + nf(day(), 2) + "-" + 
@@ -24,6 +30,24 @@ function setup() {
   }
 }
 
+function create_food_stores() {
+  for (let i = 0; i < food_store_count; i++) {
+    let food_store = { x: random(width), y: random(height), r: random(1, 10) };
+    food_stores.push(food_store);
+  }
+}
+
+function add_food_to_map() {
+  for (let food_store of food_stores) {
+    base_layer.fill(255);
+    base_layer.noStroke();
+    base_layer.ellipse(food_store.x, food_store.y, food_store.r);
+  }
+
+  base_layer.updatePixels(); // Update the pixels after drawing
+  console.log("Food stores added to base image."); // Debug
+}
+
 function draw() {
   foodmap.update().draw();
 
@@ -34,7 +58,10 @@ function draw() {
   }
   foodmap.map.updatePixels();
 
-  // record();
+  if(t%10==0){
+    foodmap.add_food();
+  }
+  t++;
 }
 
 function flood() {

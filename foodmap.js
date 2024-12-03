@@ -51,6 +51,25 @@ class Foodmap {
     return this;
   }
 
+  add_food(){
+    this.map.loadPixels();
+    for (let food_store of food_stores) {
+      let x = int(food_store.x);
+      let y = int(food_store.y);
+      let r = int(food_store.r);
+      for (let ky = -r; ky <= r; ky++) {
+        for (let kx = -r; kx <= r; kx++) {
+          if (x + kx < 0 || x + kx >= this.map.width || y + ky < 0 || y + ky >= this.map.height) {
+            continue;
+          }
+          // const pos = 4 * ((y + ky) * this.map.width + (x + kx));
+          this.map.set(x + kx, y + ky, 255);
+        }
+      }
+    }
+    this.map.updatePixels();
+  }
+
   draw() {
     image(this.map, 0, 0, width, height);
     return this;
